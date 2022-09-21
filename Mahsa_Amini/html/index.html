@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Mahsa Amini</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <!-- Houman -->
+        <style>
+            .Main {
+                visibility: hidden;
+
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border-radius: 0.7vh;
+
+                width: 70vh;
+                height: 70vh;
+
+                background: rgba(1, 4, 7, 0.801);
+
+                border: 0.1vh solid rgba(0, 0, 0, 0.8);
+
+                box-shadow: 0vh 0.2vh 0.2vh rgba(0, 0, 0, 0.25);
+                border-radius: 1.1vh;
+            }
+
+            .Close {
+                position: fixed;
+                bottom: 2.5vh;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                width: 20vh;
+                height: 2vh;
+                padding-top: 3vh;
+                padding-bottom: 3.5vh;
+
+                border-radius: 0.7vh;
+                border: 0.25vh solid rgba(0, 0, 0, 0.8);
+                background: rgb(8, 69, 139);
+                color: white;
+                text-align: center;
+                font-size: 2.5vh;
+                font-weight: 700;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            }
+
+            .Close:hover {
+                cursor: pointer;
+                background: rgb(10, 84, 168);
+            }
+
+            .Axs {
+                position: fixed;
+                top: 27vh;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                width: 44vh;
+                height: 44vh;
+
+                border-radius: 0.7vh;
+                border: 0.25vh solid rgba(0, 0, 0, 0.8);
+            }
+        </style>
+		<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript" async>
+
+            $(function () {
+
+                Send_Datas = function(Datas){
+                    fetch(`https://${GetParentResourceName()}/datas`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: JSON.stringify(Datas)
+                    }).then(resp => resp.json()).then(resp => console.log(resp));
+                };
+
+                $('.Main').on('click', '.Close', function(){
+                    Send_Datas({
+                        Close: true
+                    });
+                });
+
+                window.addEventListener('message', function (event) {
+                    switch (event.data.type) {
+                        case 'Show_Tasliat':
+                            $(".Main").css("visibility", "visible");
+                            break;
+                        case 'Close_Tasliat':
+                            $(".Main").css("visibility", "hidden");
+                            break;
+                        default:
+                        break;
+                    };
+                }, false);
+                JS_Started = function(){
+                    fetch(`https://${GetParentResourceName()}/datas`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: JSON.stringify({
+                            JS_Started: true
+                        })
+                    }).then(resp => resp.json()).then(resp => console.log(resp));
+                };
+                JS_Started();
+            });
+        </script>
+    </head>
+    <body>
+        <div class="Main">
+            <img src="mahsa_amini.png" class="Axs">
+            <div class="Close">
+                بستن
+            </div>
+        </div>
+    </body>
+</html>
